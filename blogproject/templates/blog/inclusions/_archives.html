@@ -1,0 +1,16 @@
+<div class="widget widget-archives">
+  <h3 class="widget-title">归档</h3>
+  <ul>
+    {% for date in date_list %}
+      <li>
+        <a href="{% url 'blog:archive' date.year date.month %}">
+            {{ date.year }} 年 {{ date.month }} 月
+        </a>
+{# {% url %}模板标签第一部分在应用urls.py中指定app_name的值（充当命名空间）；第二部分path函数传入name参数的值 #}
+      </li>
+    {% empty %}
+      暂无归档！
+    {% endfor %}
+  </ul>
+</div>
+{# 由于date_list中的每个元素都是Python的date对象，所以可以引用year和month属性获取年份和月份 #}

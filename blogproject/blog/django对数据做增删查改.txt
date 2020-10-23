@@ -1,0 +1,62 @@
+存数据：
+pipenv run python manage.py shell 命令：
+>>> from blog.models import Category, Tag, Post
+>>> c = Category(name='category test')
+>>> c.save()
+>>> t = Tag(name='tag test')
+>>> t.save()
+
+退出后创建一个User，用于指定文章的作者：
+> pipenv run python manage.py createsuperuser
+Username (leave blank to use 'zmrenwu@163.com'): myuser
+Email address: a@aa.com
+Password:
+Password (again):
+Superuser created successfully.
+
+创建文章：运行 python manage.py shell 进入 Python 命令交互栏，开始创建文章：
+
+>>> from blog.models import Category, Tag, Post
+>>> from django.utils import timezone
+>>> from django.contrib.auth.models import User
+
+>>> user = User.objects.get(username='myuser')
+>>> c = Category.objects.get(name='category test')
+
+>>> p = Post(title='title test', body='body test', created_time=timezone.now(), modified_time=timezone.now(), category=c, author=user)
+>>> p.save()
+
+取数据：
+>>> from blog.models import Category, Tag, Post
+>>> Category.objects.all()
+<QuerySet [<Category: category test>]>
+
+>>> Tag.objects.all()
+<QuerySet [<Tag: tag test>]>
+
+>>> Post.objects.all()
+<QuerySet [<Post: title test>]>
+
+>>> Post.objects.get(title='title test')
+<Post: title test>
+
+改数据：
+>>> c = Category.objects.get(name='category test')
+>>> c.name = 'category test new'
+>>> c.save()
+>>> Category.objects.all()
+<QuerySet [<Category: test category new>]>
+
+删数据：
+>>> p = Post.objects.get(title='title test')
+>>> p
+<Post: title test>
+>>> p.delete()
+(1, {'blog.Post_tags': 0, 'blog.Post': 1})
+>>> Post.objects.all()
+<QuerySet []>
+
+
+
+
+
